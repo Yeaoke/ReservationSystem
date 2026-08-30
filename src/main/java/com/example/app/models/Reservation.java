@@ -47,5 +47,11 @@ public class Reservation {
     @Column(name = "status", nullable = false)
     private ReservationStatus status;
 
-    
+    public UUID getUserId() {
+        return user.getId();
+    }
+
+    public UUID getRoomId() {
+        return room.getId();
+    }
 }

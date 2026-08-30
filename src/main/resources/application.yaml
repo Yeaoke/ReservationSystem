@@ -1,0 +1,58 @@
+spring:
+    datasource:
+        url: "jdbc:postgresql://localhost:5432/postgres"
+        username: "postgres"
+        password: "MaL8033038"
+        driver-class-name: "org.postgresql.Driver"
+
+    hikari:
+        connection-timeout: 20000               # время подключения
+        minimum-idle: 5                         # минимум потоков одновременно
+        maximum-idle: 12                        # максимум потоков одновременно
+        idle-timeout: 300000                    # время бездействия
+        max-lifetime: 1200000                   # время жизни соединения в пуле
+        pool-name: "ReservationSystemPool"
+        auto-commit: true                       # минимум потоков одновременно
+
+server:
+    port: 8080
+
+---
+spring:
+    config:
+        activate:
+            on-profile: dev
+
+    datasource:
+        url: "jdbc:postgresql://localhost:5432/postgres"
+        username: "postgres"
+        password: "your_password"
+        driver-class-name: "org.postgresql.Driver"
+    jpa:
+        hibernate:
+            ddl-auto: create
+            show-sql: true
+
+logging:
+    level:
+        com.example: DEBUG
+
+---
+spring:
+    config:
+        activate:
+            on-profile: prod
+
+    datasource:
+        url: "jdbc:postgresql://localhost:5432/postgres"
+        username: ${DB_USERNAME:postgres}
+        password: ${DB_PASSWORD:your_password}
+        driver-class-name: "org.postgresql.Driver"
+    jpa:
+        hibernate:
+            ddl-auto: validate
+            show-sql: false
+
+logging:
+    level:
+        com.example: INFO
