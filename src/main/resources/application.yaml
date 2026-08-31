@@ -5,14 +5,14 @@ spring:
         password: "MaL8033038"
         driver-class-name: "org.postgresql.Driver"
 
-    hikari:
-        connection-timeout: 20000               # время подключения
-        minimum-idle: 5                         # минимум потоков одновременно
-        maximum-idle: 12                        # максимум потоков одновременно
-        idle-timeout: 300000                    # время бездействия
-        max-lifetime: 1200000                   # время жизни соединения в пуле
-        pool-name: "ReservationSystemPool"
-        auto-commit: true                       # минимум потоков одновременно
+        hikari:
+            connection-timeout: 20000               # время подключения
+            minimum-idle: 5                         # минимум потоков одновременно
+            maximum-pool-size: 12                        # максимум потоков одновременно
+            idle-timeout: 300000                    # время бездействия
+            max-lifetime: 1200000                   # время жизни соединения в пуле
+            pool-name: "ReservationSystemPool"
+            auto-commit: true                       # минимум потоков одновременно
 
 server:
     port: 8080
