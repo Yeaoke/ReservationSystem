@@ -25,7 +25,7 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "email_verification_time", nullable = false)
@@ -35,5 +35,5 @@ public class User {
     private String password;
 
     @Column(name = "phone_number")
-    private String phone_number;
+    private String phoneNumber;
 }

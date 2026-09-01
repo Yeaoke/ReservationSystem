@@ -24,22 +24,22 @@ public class Room {
     private UUID id;
 
     @Column(name = "home_type", nullable = false)
-    private String home_type;
+    private String homeType;
 
     @Column(name = "address", nullable = false)
     private String address;
 
     @Column(name = "has_tv", nullable = false)
-    private Boolean has_tv;
+    private Boolean hasTV;
 
     @Column(name = "has_internet", nullable = false)
-    private Boolean has_internet;
+    private Boolean hasInternet;
 
     @Column(name = "has_kitchen", nullable = false)
-    private Boolean has_kitchen;
+    private Boolean hasKitchen;
 
     @Column(name = "has_air_con", nullable = false)
-    private Boolean has_air_con;
+    private Boolean hasAirCon;
 
     @Column(name = "price")
     private Long price;

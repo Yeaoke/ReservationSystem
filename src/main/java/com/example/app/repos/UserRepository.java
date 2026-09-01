@@ -4,6 +4,6 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.app.models.Reservation;
+import com.example.app.models.User;
 
-public interface UserRepository extends JpaRepository<Reservation, UUID> {}
+public interface UserRepository extends JpaRepository<User, UUID> {}
