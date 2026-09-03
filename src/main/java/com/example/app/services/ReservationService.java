@@ -33,8 +33,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class ReservationService {
 
-    private final Map<UUID, ReentrantLock> roomLocks =
-            new ConcurrentHashMap<>();
+    private final Map<UUID, ReentrantLock> roomLocks = new ConcurrentHashMap<>();
 
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
@@ -192,10 +191,10 @@ public class ReservationService {
             try {
                 boolean available = reservationRepository
                                 .isRoomAvailableForPeriodWithReservation(
+                                        reservationId,
                                         reservation.getRoom(),
                                         dto.start_date(),
-                                        dto.end_date(),
-                                        reservationId
+                                        dto.end_date()
                                 );
 
                 if (!available) {
@@ -241,10 +240,10 @@ public class ReservationService {
 
                 boolean available = reservationRepository
                                 .isRoomAvailableForPeriodWithReservation(
+                                        reservationId,
                                         newRoom,
                                         dto.start_date(),
-                                        dto.end_date(),
-                                        reservationId
+                                        dto.end_date()
                                 );
                 if (!available) {
                     throw new RoomAlreadyReservedException(

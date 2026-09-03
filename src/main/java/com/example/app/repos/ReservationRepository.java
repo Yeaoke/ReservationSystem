@@ -26,8 +26,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
     );
 
     boolean isRoomAvailableForPeriodWithReservation(
+            @Param("id") UUID reservationId,
             @Param("roomId") Room newRoom,
             @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate,
-            UUID reservationId);
+            @Param("endDate") LocalDate endDate
+        );
 }
