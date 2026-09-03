@@ -25,6 +25,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
             @Param("endDate") LocalDate endDate
     );
 
+    @Query("""
+        SELECT COUNT(r) > 0
+        FROM Reservation r
+        WHERE r.room = :newRoom
+        AND r.id != :reservationId
+        AND r.startDate < :endDate
+        AND r.endDate > :startDate
+    """)
     boolean isRoomAvailableForPeriodWithReservation(
             @Param("id") UUID reservationId,
             @Param("roomId") Room newRoom,
