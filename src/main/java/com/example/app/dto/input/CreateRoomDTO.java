@@ -22,6 +22,9 @@ public record CreateRoomDTO(
     @NotNull(message = "room must have info about TV")
     Boolean hasTV,
 
+    @NotNull(message = "room must have info about kitchen")
+    Boolean hasKitchen,
+
     @NotNull(message = "room must have info about Internet")
     Boolean hasInternet,
 
