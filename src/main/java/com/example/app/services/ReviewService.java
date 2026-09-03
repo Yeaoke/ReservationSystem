@@ -27,11 +27,13 @@ public class ReviewService {
     public Review createReview(
         CreateReviewDTO dto,
         UUID reservationId
-    ) throws ReservationNotFoundException {
+    )  {
         Review review = new Review();
 
         Reservation reservation = reservationRepository.findById(reservationId)
-            .orElseThrow(ReservationNotFoundException::new);
+            .orElseThrow(() -> new ReservationNotFoundException(
+                "Reservation not found with id" + dto.reservationId()
+            ));
 
         review.setId(UUID.randomUUID());
         review.setReservation(reservation);

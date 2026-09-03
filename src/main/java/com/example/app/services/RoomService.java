@@ -12,6 +12,7 @@ import com.example.app.models.User;
 import com.example.app.repos.RoomRepository;
 import com.example.app.repos.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -24,15 +25,26 @@ public class RoomService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public Room createRoom(
         CreateRoomDTO dto,
         UUID userId
-    ) throws UserNotFoundException {
+    ) {
+        log.info("Creating room in DB on thread {}", Thread.currentThread().getName());
+
         Room room = new Room();
 
         User user = userRepository.findById(userId)
-            .orElseThrow(UserNotFoundException::new);
+            .orElseThrow(() -> new UserNotFoundException(
+                "User not found with id: " + userId
+            ));
 
+        if (dto.price() < 0) {
+            throw new IllegalArgumentException(
+                "Price can't be less than 0" + dto.price()
+            );
+        }
+        
         room.setId(UUID.randomUUID());
         room.setHomeType(dto.homeType());
         room.setAddress(dto.address());
@@ -44,7 +56,7 @@ public class RoomService {
         room.setLatitude(dto.latitude());
         room.setLongitude(dto.longitude());
 
-        
+        log.info("Room was created");
         return roomRepository.save(room);
     }
 
