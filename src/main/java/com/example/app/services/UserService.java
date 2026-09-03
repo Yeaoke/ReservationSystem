@@ -5,25 +5,30 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.app.dto.input.CreateUserDTO;
 import com.example.app.models.User;
 import com.example.app.repos.UserRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    
-    @Autowired
-    private UserRepository userRepository;
 
-    public User createUser(
-        CreateUserDTO dto
-    ) {
+    private final UserRepository userRepository;
+
+    public User createUser(CreateUserDTO dto) {
+
+        log.info(
+                "Creating user: email={}, thread={}",
+                dto.email(),
+                Thread.currentThread().getName()
+        );
+
         User user = new User();
 
         user.setId(UUID.randomUUID());
@@ -33,15 +38,37 @@ public class UserService {
         user.setPassword(dto.password());
         user.setPhoneNumber(dto.phoneNumber());
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        log.info(
+                "User created: id={}",
+                savedUser.getId()
+        );
+
+        return savedUser;
     }
 
     public Optional<User> getUserById(UUID id) {
+
+        log.info(
+                "Getting user: id={}",
+                id
+        );
+
         return userRepository.findById(id);
     }
 
-    public List<User> getAllUsersWhoMadeReview() {
-        // норм логика
+    public List<User> getAllUsers() {
+
+        log.info("Getting all users");
+
         return userRepository.findAll();
+    }
+
+    public List<User> getAllUsersWhoMadeReview() {
+
+        log.info("Getting users who made reviews");
+
+        return userRepository.findAllUsersWhoMadeReview();
     }
 }
