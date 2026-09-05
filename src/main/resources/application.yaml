@@ -26,11 +26,11 @@ spring:
     datasource:
         url: "jdbc:postgresql://localhost:5432/postgres"
         username: "postgres"
-        password: "your_password"
+        password: "MaL8033038"
         driver-class-name: "org.postgresql.Driver"
     jpa:
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
             show-sql: true
 
 logging:

@@ -1,5 +1,3 @@
 package com.example.app.dto.output;
 
-public class ReviewResponseDTO {
-    
-}
+public record ReviewResponseDTO() {}

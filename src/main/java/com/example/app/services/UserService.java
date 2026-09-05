@@ -71,4 +71,8 @@ public class UserService {
 
         return userRepository.findAllUsersWhoMadeReview();
     }
+
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
+    }
 }

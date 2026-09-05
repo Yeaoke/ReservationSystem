@@ -32,11 +32,7 @@ public class RoomService {
             UUID userId
     ) {
 
-        log.info(
-                "Creating room: ownerId={}, thread={}",
-                userId,
-                Thread.currentThread().getName()
-        );
+        log.info("Creating room: ownerId={}, thread={}", userId, Thread.currentThread().getName());
 
         validatePrice(dto.price());
 
@@ -62,11 +58,7 @@ public class RoomService {
 
         Room savedRoom = roomRepository.save(room);
 
-        log.info(
-                "Room created: id={}, ownerId={}",
-                savedRoom.getId(),
-                userId
-        );
+        log.info("Room created: id={}, ownerId={}", savedRoom.getId(), userId);
 
         return savedRoom;
     }
@@ -76,7 +68,7 @@ public class RoomService {
         log.info("Getting room: id={}", id);
 
         return roomRepository.findById(id);
-    }
+        }
 
     public List<Room> getAllRooms() {
 
