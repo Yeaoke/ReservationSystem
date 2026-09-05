@@ -44,7 +44,6 @@ public class ReviewService {
 
         Review review = new Review();
 
-        review.setId(UUID.randomUUID());
         review.setReservation(reservation);
         review.setRating(dto.rating());
 

@@ -1,12 +1,16 @@
 package com.example.app.controllers;
 
+import com.example.app.dto.ReservationStatus;
 import com.example.app.dto.input.CreateReservationDTO;
 import com.example.app.dto.output.ReservationResponseDTO;
 import com.example.app.models.Reservation;
 import com.example.app.models.Review;
 import com.example.app.services.ReservationService;
 import com.example.app.services.ReviewService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,44 +27,48 @@ public class ReservationController {
     private final ReviewService reviewService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable UUID id) {
-        Optional<Reservation> reservation = reservationService.findReservation(id);
-
-        if (reservation.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(convertToReservationDTO(reservation.get()));
+    public ResponseEntity<ReservationResponseDTO> getReservationById(
+            @PathVariable UUID id
+    ) {
+        return reservationService.findReservation(id)
+                .map(this::toDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/create/{userId}")
-    public ResponseEntity<Reservation> createReservation(
+    public ResponseEntity<ReservationResponseDTO> createReservation(
             @PathVariable UUID userId,
-            @RequestBody CreateReservationDTO dto) {
-        
+            @RequestBody @Valid CreateReservationDTO dto
+    ) {
         Reservation reservation = reservationService.createReservation(dto, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservation);
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDto(reservation));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Reservation> updateReservation(
+    public ResponseEntity<ReservationResponseDTO> updateReservation(
             @PathVariable UUID id,
-            @RequestBody CreateReservationDTO dto) {
+            @RequestBody @Valid CreateReservationDTO dto
+    ) {
+        Reservation reservation = reservationService.updateReservation(id, dto);
+        return ResponseEntity.ok(toDto(reservation));
+    }
 
-        try {
-            Reservation updatedReservation = reservationService.updateReservation(id, dto);
-            return ResponseEntity.ok(updatedReservation);
-        } catch (IllegalArgumentException e) {
-
-            return ResponseEntity.badRequest().build();
-        }
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ReservationResponseDTO> updateReservationStatus(
+            @PathVariable UUID id,
+            @RequestParam ReservationStatus status
+    ) {
+        return ResponseEntity.ok(toDto(
+                reservationService.updateReservationStatus(id, status)
+        ));
     }
 
     @GetMapping("/{reservationId}/reviews/{reviewId}")
     public ResponseEntity<Review> getReviewOfReservation(
             @PathVariable UUID reservationId,
-            @PathVariable UUID reviewId) {
-        
+            @PathVariable UUID reviewId
+    ) {
         Optional<Review> review = reviewService.getReviewById(reviewId);
 
         if (review.isEmpty()) {
@@ -76,17 +84,11 @@ public class ReservationController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable UUID id) {
-        Optional<Reservation> reservationToDelete = reservationService.findReservation(id);
-
-        if (reservationToDelete.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
         reservationService.deleteReservation(id);
         return ResponseEntity.noContent().build();
     }
 
-    private ReservationResponseDTO convertToReservationDTO(Reservation reservation) {
+    private ReservationResponseDTO toDto(Reservation reservation) {
         return new ReservationResponseDTO(
                 reservation.getUserId(),
                 reservation.getRoomId(),

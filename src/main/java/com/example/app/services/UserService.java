@@ -31,7 +31,6 @@ public class UserService {
 
         User user = new User();
 
-        user.setId(UUID.randomUUID());
         user.setName(dto.name());
         user.setEmail(dto.email());
         user.setEmailVerificationTime(LocalDate.now());

@@ -44,7 +44,6 @@ public class RoomService {
 
         Room room = new Room();
 
-        room.setId(UUID.randomUUID());
         room.setHomeType(dto.homeType());
         room.setAddress(dto.address());
         room.setHasTV(dto.hasTV());
