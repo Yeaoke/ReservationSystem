@@ -8,11 +8,11 @@ spring:
         hikari:
             connection-timeout: 20000               # время подключения
             minimum-idle: 5                         # минимум потоков одновременно
-            maximum-pool-size: 12                        # максимум потоков одновременно
+            maximum-pool-size: 12                   # максимум потоков одновременно
             idle-timeout: 300000                    # время бездействия
             max-lifetime: 1200000                   # время жизни соединения в пуле
             pool-name: "ReservationSystemPool"
-            auto-commit: true                       # минимум потоков одновременно
+            auto-commit: true                       
 
 server:
     port: 8080
@@ -30,7 +30,7 @@ spring:
         driver-class-name: "org.postgresql.Driver"
     jpa:
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
             show-sql: true
 
 logging:
