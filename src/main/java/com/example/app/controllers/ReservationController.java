@@ -15,8 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +29,12 @@ public class ReservationController {
 
     private final ReservationService reservationService;
     private final ReviewService reviewService;
+
+    @GetMapping("")
+    public List<Reservation> getAllReservations() {
+        return reservationService.getAllReservations();
+    }
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<ReservationResponseDTO> getReservationById(
