@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.example.app.dto.input.CreateRoomDTO;
+import com.example.app.dto.room.input.RoomRequest;
 import com.example.app.exceptions.RoomNotFoundException;
 import com.example.app.exceptions.UserNotFoundException;
 import com.example.app.models.Room;
@@ -28,7 +28,7 @@ public class RoomService {
 
     @Transactional
     public Room createRoom(
-            CreateRoomDTO dto,
+            RoomRequest dto,
             UUID userId
     ) {
 

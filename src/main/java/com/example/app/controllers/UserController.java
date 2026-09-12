@@ -1,7 +1,7 @@
 package com.example.app.controllers;
 
-import com.example.app.dto.input.CreateUserDTO;
-import com.example.app.dto.output.UserResponseDTO;
+import com.example.app.dto.user.input.UserRequest;
+import com.example.app.dto.user.output.UserResponse;
 import com.example.app.models.User;
 import com.example.app.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<User> createUser(
-        @RequestBody CreateUserDTO dto
+        @RequestBody UserRequest dto
     ) {
         User user = userService.createUser(dto);
 
@@ -33,8 +33,8 @@ public class UserController {
 
     @Profile("dev")
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        List<UserResponseDTO> usersResponse = userService.getAllUsers().stream()
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> usersResponse = userService.getAllUsers().stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
 
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/rooms/{roomId}/owner/{userId}")
-    public ResponseEntity<UserResponseDTO> getUser(
+    public ResponseEntity<UserResponse> getUser(
             @PathVariable UUID roomId,
             @PathVariable UUID userId) {
         
@@ -65,8 +65,8 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    private UserResponseDTO convertToResponseDTO(User user) {
-        return new UserResponseDTO(
+    private UserResponse convertToResponseDTO(User user) {
+        return new UserResponse(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),

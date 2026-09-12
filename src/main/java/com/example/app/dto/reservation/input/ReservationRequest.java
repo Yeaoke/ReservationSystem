@@ -1,4 +1,4 @@
-package com.example.app.dto.input;
+package com.example.app.dto.reservation.input;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateReservationDTO(
+public record ReservationRequest(
 
         @NotNull(message = "room_id can't be null")
         UUID roomId,

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.app.dto.ReservationStatus;
-import com.example.app.dto.input.CreateReservationDTO;
+import com.example.app.dto.reservation.input.ReservationRequest;
 import com.example.app.exceptions.DaysAmountException;
 import com.example.app.exceptions.ReservationNotFoundException;
 import com.example.app.exceptions.RoomAlreadyReservedException;
@@ -40,7 +40,7 @@ public class ReservationService {
 
     @Transactional
     public Reservation createReservation(
-            CreateReservationDTO dto,
+            ReservationRequest dto,
             UUID userId
     ) {
         validateDates(dto);
@@ -91,7 +91,7 @@ public class ReservationService {
     @Transactional
     public Reservation updateReservation(
         UUID reservationId,
-        CreateReservationDTO dto
+        ReservationRequest dto
     ) {
         validateDates(dto);
 
@@ -262,7 +262,7 @@ public class ReservationService {
         }
     }
 
-    private void validateDates(CreateReservationDTO dto) {
+    private void validateDates(ReservationRequest dto) {
         if (dto == null) {
             throw new DaysAmountException("Reservation data can't be null");
         }

@@ -1,6 +1,6 @@
 package com.example.app.controllers;
 
-import com.example.app.dto.input.CreateReviewDTO;
+import com.example.app.dto.review.input.ReviewRequest;
 import com.example.app.models.Review;
 import com.example.app.services.ReviewService;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ public class ReviewController {
     @PostMapping("/{reservationId}")
     public ResponseEntity<Review> createReview(
             @PathVariable UUID reservationId,
-            @RequestBody @Valid CreateReviewDTO dto) {
+            @RequestBody @Valid ReviewRequest dto) {
         
         Review createdReview = reviewService.createReview(dto, reservationId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);

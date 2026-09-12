@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.example.app.dto.input.CreateReviewDTO;
+import com.example.app.dto.review.input.ReviewRequest;
 import com.example.app.exceptions.ReservationNotFoundException;
 import com.example.app.exceptions.ReviewNotFoundException;
 import com.example.app.models.Reservation;
@@ -28,7 +28,7 @@ public class ReviewService {
 
     @Transactional
     public Review createReview(
-            CreateReviewDTO dto,
+            ReviewRequest dto,
             UUID reservationId
     ) {
         log.info("Creating review: reservationId={}",reservationId);

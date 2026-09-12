@@ -1,11 +1,11 @@
-package com.example.app.dto.output;
+package com.example.app.dto.reservation.output;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import com.example.app.dto.ReservationStatus;
 
-public record ReservationResponseDTO(
+public record ReservationResponse(
     UUID userId,
 
     UUID roomId,

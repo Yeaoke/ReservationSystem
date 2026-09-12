@@ -1,16 +1,20 @@
 package com.example.app.controllers;
 
 import com.example.app.dto.ReservationStatus;
-import com.example.app.dto.input.CreateReservationDTO;
-import com.example.app.dto.output.ReservationResponseDTO;
+import com.example.app.dto.reservation.input.ReservationRequest;
+import com.example.app.dto.reservation.output.ReservationResponse;
 import com.example.app.models.Reservation;
 import com.example.app.models.Review;
 import com.example.app.services.ReservationService;
 import com.example.app.services.ReviewService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RequiredArgsConstructor
@@ -30,14 +32,36 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final ReviewService reviewService;
 
+    @Operation(
+        summary = "Вернуть список всех бронирований",
+        description = "Возвращает весь вообще список забронированных, которые есть в базе данных"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "201",
+            description = "Бронирование создано"
+    ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Пользователь или номер не найден"
+    ),
+        @ApiResponse(
+            responseCode = "409",
+            description = "Номер уже забронирован"
+    )
+})
     @GetMapping("")
     public List<Reservation> getAllReservations() {
         return reservationService.getAllReservations();
     }
-    
 
+    
+    @Operation(
+        summary = "Вернуть ",
+        description = ""
+    )
     @GetMapping("/{id}")
-    public ResponseEntity<ReservationResponseDTO> getReservationById(
+    public ResponseEntity<ReservationResponse> getReservationById(
             @PathVariable UUID id
     ) {
         return reservationService.findReservation(id)
@@ -47,25 +71,27 @@ public class ReservationController {
     }
 
     @PostMapping("/create/{userId}")
-    public ResponseEntity<ReservationResponseDTO> createReservation(
-            @PathVariable UUID userId,
-            @RequestBody @Valid CreateReservationDTO dto
+    public ResponseEntity<ReservationResponse> createReservation(
+            @PathVariable Authentication authentication,
+            @RequestBody @Valid ReservationRequest dto
     ) {
+        UUID userId = UUID.fromString(null);
+
         Reservation reservation = reservationService.createReservation(dto, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(toDto(reservation));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ReservationResponseDTO> updateReservation(
+    public ResponseEntity<ReservationResponse> updateReservation(
             @PathVariable UUID id,
-            @RequestBody @Valid CreateReservationDTO dto
+            @RequestBody @Valid ReservationRequest dto
     ) {
         Reservation reservation = reservationService.updateReservation(id, dto);
         return ResponseEntity.ok(toDto(reservation));
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<ReservationResponseDTO> updateReservationStatus(
+    public ResponseEntity<ReservationResponse> updateReservationStatus(
             @PathVariable UUID id,
             @RequestParam ReservationStatus status
     ) {
@@ -98,8 +124,8 @@ public class ReservationController {
         return ResponseEntity.noContent().build();
     }
 
-    private ReservationResponseDTO toDto(Reservation reservation) {
-        return new ReservationResponseDTO(
+    private ReservationResponse toDto(Reservation reservation) {
+        return new ReservationResponse(
                 reservation.getUserId(),
                 reservation.getRoomId(),
                 reservation.getStartDate(),

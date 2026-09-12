@@ -1,4 +1,4 @@
-package com.example.app.dto.input;
+package com.example.app.dto.review.input;
 
 import java.util.UUID;
 
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateReviewDTO(
+public record ReviewRequest(
 
     @NotNull(message = "reservation id can't be empty")
     UUID reservationId,

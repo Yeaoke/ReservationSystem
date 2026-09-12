@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.example.app.dto.input.CreateUserDTO;
+import com.example.app.dto.user.input.UserRequest;
 import com.example.app.models.User;
 import com.example.app.repos.UserRepository;
 
@@ -21,7 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User createUser(CreateUserDTO dto) {
+    public User createUser(UserRequest dto) {
 
         log.info(
                 "Creating user: email={}, thread={}",

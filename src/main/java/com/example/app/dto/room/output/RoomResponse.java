@@ -1,6 +1,6 @@
-package com.example.app.dto.output;
+package com.example.app.dto.room.output;
 
-public record RoomResponseDTO(
+public record RoomResponse(
     String hometype,
 
     String address,

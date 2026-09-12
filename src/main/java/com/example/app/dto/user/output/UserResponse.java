@@ -1,9 +1,9 @@
-package com.example.app.dto.output;
+package com.example.app.dto.user.output;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record UserResponseDTO(
+public record UserResponse(
     UUID id,
 
     String name,

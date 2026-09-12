@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.app.dto.input.CreateReservationDTO;
+import com.example.app.dto.reservation.input.ReservationRequest;
 import com.example.app.exceptions.DaysAmountException;
 import com.example.app.models.Reservation;
 import com.example.app.models.Room;
@@ -71,7 +71,7 @@ class ReservationServiceTest {
         LocalDate start = LocalDate.now().plusDays(1);
         LocalDate end = LocalDate.now().plusDays(3);
 
-        CreateReservationDTO dto = new CreateReservationDTO(roomId, start, end);
+        ReservationRequest dto = new ReservationRequest(roomId, start, end);
 
         Room room = new Room();
         room.setId(roomId);
@@ -117,7 +117,7 @@ class ReservationServiceTest {
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = LocalDate.now().plusDays(4);
 
-        CreateReservationDTO dto = new CreateReservationDTO(roomId, startDate, endDate);
+        ReservationRequest dto = new ReservationRequest(roomId, startDate, endDate);
         
         Room room = new Room();
         room.setId(roomId);
@@ -160,7 +160,7 @@ class ReservationServiceTest {
         LocalDate startDate = LocalDate.now().plusDays(5);
         LocalDate endDate = LocalDate.now().plusDays(1);
 
-        CreateReservationDTO dto = new CreateReservationDTO(roomId, startDate, endDate);
+        ReservationRequest dto = new ReservationRequest(roomId, startDate, endDate);
 
         User user = new User();
         user.setId(userId);

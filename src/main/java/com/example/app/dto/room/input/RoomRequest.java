@@ -1,4 +1,4 @@
-package com.example.app.dto.input;
+package com.example.app.dto.room.input;
 
 import java.util.UUID;
 
@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record CreateRoomDTO(
+public record RoomRequest(
 
     @NotBlank(message = "homeType cannot be empty")
     String homeType,

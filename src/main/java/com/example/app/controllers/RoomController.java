@@ -1,7 +1,7 @@
 package com.example.app.controllers;
 
-import com.example.app.dto.input.CreateRoomDTO;
-import com.example.app.dto.output.RoomResponseDTO;
+import com.example.app.dto.room.output.RoomResponse;
+import com.example.app.dto.room.input.RoomRequest;
 import com.example.app.models.Room;
 import com.example.app.services.RoomService;
 import jakarta.validation.Valid;
@@ -24,10 +24,10 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
-    public ResponseEntity<List<RoomResponseDTO>> getListOfAllRooms() {
+    public ResponseEntity<List<RoomResponse>> getListOfAllRooms() {
         List<Room> rooms = roomService.getAllRooms();
 
-        List<RoomResponseDTO> roomsResponse = rooms.stream()
+        List<RoomResponse> roomsResponse = rooms.stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
 
@@ -35,7 +35,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomResponseDTO> getRoomById(@PathVariable UUID id) {
+    public ResponseEntity<RoomResponse> getRoomById(@PathVariable UUID id) {
         Optional<Room> room = roomService.getRoomById(id);
 
         if (room.isEmpty()) {
@@ -60,7 +60,7 @@ public class RoomController {
     @PostMapping("/create/{userId}")
     public ResponseEntity<Room> createRoomForReservation(
             @PathVariable UUID userId,
-            @RequestBody @Valid CreateRoomDTO dto) {
+            @RequestBody @Valid RoomRequest dto) {
         
         try {
             Room room = roomService.createRoom(dto, userId);
@@ -70,8 +70,8 @@ public class RoomController {
         }
     }
 
-    private RoomResponseDTO convertToResponseDTO(Room room) {
-        return new RoomResponseDTO(
+    private RoomResponse convertToResponseDTO(Room room) {
+        return new RoomResponse(
                 room.getHomeType(),
                 room.getAddress(),
                 room.getHasTV(),

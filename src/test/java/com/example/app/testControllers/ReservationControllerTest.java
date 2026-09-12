@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.example.app.controllers.ReservationController;
-import com.example.app.dto.input.CreateReservationDTO;
+import com.example.app.dto.reservation.input.ReservationRequest;
 import com.example.app.models.Reservation;
 import com.example.app.models.Room;
 import com.example.app.models.User;
@@ -99,8 +99,8 @@ class ReservationControllerTest {
         reservation.setEndDate(endDate);
         reservation.setPrice(3000L);
 
-        CreateReservationDTO dto =
-                new CreateReservationDTO(
+        ReservationRequest dto =
+                new ReservationRequest(
                         roomId,
                         startDate,
                         endDate
